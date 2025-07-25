@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# การใช้ NextAuth, prisma, bcrypt
 
-## Getting Started
-
-First, run the development server:
+> เราจะใช้ prisma ในการทำ ORM
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install prisma --save-dev
+npm install @prisma/client # สำหรับใช้ใน Next.js ทำการลงไว้ก่อนเลย
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Step 1 หลังจากนั้น ให้ทำการพิมพ์คำสั่งนี้เพื่อเริ่มต้น schema file ของ Prisma ออกมา
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npx prisma init
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Step 2 สร้างตาราง
 
-## Learn More
+```bash
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String?
+  email String @unique
+  password String
+  image String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Step 3 migrate prisma กับ ฐานข้อมูล
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx prisma migrate dev --name ชื่อที่จะตั้ง
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Step 4 สร้าง API สำหรับ Signup
 
-## Deploy on Vercel
+> /api/auth/signup/route.js
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Step 5 ทำ hash password
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+ืnpm install bcrypt
+```
+
+## หลังจากสร้าง Signup API แล้ว
+
+1. ลง next-Auth
+   > เริ่มใช่งาน NextAuth
+
+```bash
+npm install next-auth
+```
+
+2. ลง Adapters ของ Auth
+   > `https://next-auth.js.org/adapters`
+
+```bash
+npm install @prisma/client @auth/prisma-adapter
+npm install prisma --save-dev
+```
+
+## 
