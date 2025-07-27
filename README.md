@@ -60,4 +60,15 @@ npm install @prisma/client @auth/prisma-adapter
 npm install prisma --save-dev
 ```
 
-## 
+## สร้าง หน้า login 
+> /app/page.js
+
+
+## .env
+```bash
+DATABASE_URL= DATABASE_URL = mysql://USER:PASSWORD@HOST:PORT/DATABASE
+
+# The following `prisma+sqlite` URL is similar to the URL produced by running a local Prisma SQLite
+NEXTAUTH_SECRET="98E3B2CC28F61492C6934531C828CF0B"
+NEXTAUTH_URL=http://localhost:3000/
+```
